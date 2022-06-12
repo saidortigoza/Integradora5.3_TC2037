@@ -24,7 +24,7 @@ void resaltadorSeq(string *rutas, int size) {
 		ifstream inputFile(rutas[i]);
 		if (inputFile.is_open()) {
 			while (getline(inputFile, line)) {
-				cout << line << endl;
+				//cout << line << endl;
 				//Manipulacion del archivo
 			}
 		}
@@ -45,7 +45,7 @@ void* resaltadorConc(void* args) {
 		ifstream inputFile(block->arr[i]);
 		if (inputFile.is_open()) {
 			while (getline(inputFile, line)) {
-				cout << line << endl;
+				//cout << line << endl;
 				//Manipulacion del archivo
 			}
 		}
