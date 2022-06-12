@@ -11,13 +11,11 @@
 #include <pthread.h>
 #include "utils.h"
 
-
-
 const int threads = 8;
 
 using namespace std;
 
-// Resaltador Secuencial
+// Implementación del Resaltador Secuencial
 void resaltadorSeq(string *rutas, int size) {
 	for (int i = 0; i < size; i++) {
 		string line;
@@ -31,12 +29,12 @@ void resaltadorSeq(string *rutas, int size) {
 	}
 }
 
+// Implementación del Resaltador Concurrente
 typedef struct {
 	int start, end;
 	string* arr;
 } Block;
 
-//Resaltador Concurrente
 void* resaltadorConc(void* args) {
 	Block *block;
 	block = (Block*)args;
@@ -67,14 +65,14 @@ int main(int argc, char* argv[]) {
 	for (i = 0; i < argc; i++) {
 		rutasArchivos[i] = argv[i];
 	}
-	//Manera secuencial
 
+	// Ejecución secuencial
 	msSeq = 0;
 	start_timer();
 	resaltadorSeq(rutasArchivos, size_Arr);
 	msSeq = stop_timer();
 
-	//Manera Concurrente
+	// Ejecución concurrente
 	block_size = size_Arr / threads;
 
 	for (i = 0; i < threads; i++) {
