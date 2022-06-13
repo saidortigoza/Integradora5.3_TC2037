@@ -20,37 +20,17 @@ const int threads = 8;
 using namespace std;
 
 string addTag(string type, string content) {
-	return "<span class='" + type + "'>" + content + "</span>";
+	string tag = "<span class='" + type + "'>" + content + "</span>";
+	return tag;
 }
 
 bool isVariable (string str) {
   regex expression("[a-zA-Z_]+[a-zA-Z_0-9]*");
-
-  /*
-  regex reg1("[0-9]+[a-zA-Z]+[0-9]*");
-  regex reg2("[/][/][ a-zA-Z0-9_]*");
-  string filterNumStr;
-  regex_replace(back_inserter(filterNumStr), str.begin(), str.end(), reg1, "");
-  string filterComStr;
-  regex_replace(back_inserter(filterComStr), filterNumStr.begin(), filterNumStr.end(), reg2,"");
-  sregex_iterator currentMatch(filterComStr.begin(), filterComStr.end(), reg);
-  sregex_iterator lastMatch;
-  */
-
 	if (regex_match(str, expression)) {
 		return true;
 	} else {
 		return false;
 	}
-
-	/*
-  while (currentMatch != lastMatch) {
-    smatch match = *currentMatch;
-    //cout << match.str() << " : VARIABLE" << "\n";
-    currentMatch++;
-  }
-  return true;
-  */
 }
 
 bool isInteger (string str) {
@@ -95,124 +75,147 @@ bool isComment(string str) {
   return true;
 }
 
+bool isDelimiter (char letter) {
+	/* Verificación salto de linea
+	if (letter == '\n') {
+		return true;
+	}
+	*/
+	if (letter == '\t') {
+		return true;
+	}
+	if (letter == ' ') {
+		return true;
+	}
+	if (letter == '{' || letter == '}') {
+		return true;
+	}
+	if (letter == '(' || letter == ')') {
+		return true;
+	}
+	if (letter == '[' || letter == ']') {
+		return true;
+	}
+	if (letter == '<' || letter == '>') {
+		return true;
+	} 
+	if (letter == '+' || letter == '*' || letter == '-' || letter == '/' || letter == '%') {
+		return true;
+	}
+	if (letter == ',') {
+		return true;
+	}
+	if (letter == ';') {
+		return true;
+	}
+	return false;
+}
+
+vector<string> crearArregloPalabras(string line) {
+	string palabra = "";
+	vector<string> vectorPalabras;
+	//cout << line << endl;
+	for (int i = 0; i < line.length(); i++) {
+		if (line[i] == '/' && line[i + 1] == '/') {
+			for (int k = i; k < line.length(); k++) {
+				if (line[k + 1] == '\t') {
+					palabra += line[k];
+					vectorPalabras.push_back(palabra);
+					palabra = "";
+					i = k + 1;
+					break;
+				}
+				else {
+					palabra += line[k];
+				}
+			}
+		}
+		else if (isDelimiter(line[i])) {
+			palabra = line[i];
+			vectorPalabras.push_back(palabra);
+			palabra = "";
+		} 
+		else if (line[i] == '"') {
+			for (int j = i; j < line.length(); j++) {
+				if (line[j + 1] == '"') {
+					palabra += line[j];
+					palabra += line[j + 1];
+					vectorPalabras.push_back(palabra);
+					palabra = "";
+					i = j + 1;
+					break;
+				}
+				else {
+					palabra += line[j];
+				}
+			}
+		}
+		else if (!isDelimiter(line[i + 1])) {
+			palabra += line[i];
+		} else {
+			palabra += line[i];
+			vectorPalabras.push_back(palabra);
+			palabra = "";
+		}
+	}
+	return vectorPalabras;
+}
+
 // Implementación del Resaltador Secuencial
 void resaltadorSec(string *rutas, int size) {
+	vector<string> vectorPalabras;
 	for (int i = 0; i < size; i++) {
 		string line;
+		string aux;
 		ifstream inputFile(rutas[i]);
 		if (inputFile.is_open()) {
 			while (getline(inputFile, line)) {
-				//cout << line << endl;
-
-				/*if(cont >= start && cont <= limit){
-						writeFile << "<br>";
-						for (int i = 0; i < str.length(); i++) {
-							c = str[i];
-							substring = str.substr(i);
-
-							if (c == " ") {
-								writeFile<< " ";
-							}
-
-							else if (isVariable(substring)) {
-								writeFile<< addTag("variable", substring);
-							}
-
-							else if (isInteger(substring)) {
-								writeFile<< addTag("number", substring);
-							}
-
-							else if (isReal(substring)) {
-								writeFile<< addTag("number", substring);
-							}
-
-							else if (isComment(substring)) {
-								writeFile<< addTag("comment", substring);
-							}
-
-							else if (c == "=") {
-								writeFile<< addTag("operator",c);
-							}
-
-							else if (c == "+"){
-								writeFile<< addTag("operator",c);
-							}
-
-							else if (c == "*") {
-								writeFile<< addTag("operator",c);
-							}
-							
-							else if (c == "/"){
-								writeFile<< addTag("operator",c);
-							}
-							
-							else if (c == "^") {
-								writeFile<< addTag("operator",c);
-							}
-							
-							else if ( c == "-" && str[i+1]==' ' ){
-								writeFile<< addTag("operadores", c);
-							}
-							
-							else if ( c == "(" ){
-								writeFile<< addTag("operator",c);
-							}
-							
-							else if ( c == ")" ){
-								writeFile<< addTag("operator",c);
-							}
-							
-							else if (c == "'")
-							{
-								writeFile<< addTag("operator", c);
-							}
-							
-							else if ( c == "," ){
-								writeFile<< addTag("operator",c);
-							}
-							
-							else if ( c == "#" ){
-								writeFile<< addTag("operator",c);
-							}
-							
-							else if ( c == ";" ){
-								writeFile<< addTag("operator",c);
-							}
-							
-							else if (c == "{"){
-								writeFile<< addTag("operator", c);
-							}
-							
-							else if ( c == "}" ){
-								writeFile<< addTag("operator",c);
-							}
-							
-							else if (c == "["){
-								writeFile<< addTag("operator", c);
-							}
-							
-							else if ( c == "]" ){
-								writeFile<< addTag("operator",c);
-							}
-							
-							else if ( c == "<" ){
-								writeFile<< addTag("operator",c);
-							}
-							
-							else if (c == ">"){
-								writeFile<< addTag("operator", c);
-							}
-
-							else continue;
-						}
-					}
-					cont++;
-				}
-				return (void*) 0; */
+				aux += line;
 			}
+			vectorPalabras = crearArregloPalabras(aux);
+			string nombreArchivo = "output.html";
+			ofstream html(nombreArchivo);
+			
+			html << "<!DOCTYPE html> \n";
+			html << "<html lang = 'es'> \n";
+			html << "<head> \n\t";
+			html << "<meta charset = 'UTF-8'> \n\t";
+			html << "<meta http - equiv = 'X-UA-Compatible' content = 'IE=edge'>\n\t";
+			html << "<meta name = 'viewport' content = 'width=device-width, initial-scale=1.0'>\n\t";
+			html << "<title> Actividad 5.3 </title> <link rel = 'stylesheet' href = 'styles.css'>";
+			html << "</head>\n<body>\n";
+			/*
+			cout << vectorPalabras[11] << endl;
+			cout << isVariable(vectorPalabras[11]) << endl;
+
+			*/
+			
+			for(int j = 0; j < vectorPalabras.size(); j++) {
+				string tagWord;
+
+				if (isVariable(vectorPalabras[j])) {
+					tagWord = addTag("variable", vectorPalabras[j]);
+					html << tagWord;
+					html << "\n";
+					html << "<br>";
+				}
+			}
+			
+			html << "\n</body>\n</html>";
+			html.close();
+			/*
+			cout << "Vector de palabras\n";
+			for (int j = 0; j < vectorPalabras.size(); j++) {
+				cout << vectorPalabras[j] << ",";
+			}
+				cout << "\n";
+			*/
+
 		}
 	}
 }
+
+
 
 /*
 void* lexer(string archivo, int start, int limit, char type, int num) {
@@ -434,3 +437,111 @@ int main(int argc, char* argv[]) {
 
 	return 0;
 }
+
+//cout << line << endl;
+
+				/*if(cont >= start && cont <= limit){
+						writeFile << "<br>";
+						for (int i = 0; i < str.length(); i++) {
+							c = str[i];
+							substring = str.substr(i);
+
+							if (c == " ") {
+								writeFile<< " ";
+							}
+
+							else if (isVariable(substring)) {
+								writeFile<< addTag("variable", substring);
+							}
+
+							else if (isInteger(substring)) {
+								writeFile<< addTag("number", substring);
+							}
+
+							else if (isReal(substring)) {
+								writeFile<< addTag("number", substring);
+							}
+
+							else if (isComment(substring)) {
+								writeFile<< addTag("comment", substring);
+							}
+
+							else if (c == "=") {
+								writeFile<< addTag("operator",c);
+							}
+
+							else if (c == "+"){
+								writeFile<< addTag("operator",c);
+							}
+
+							else if (c == "*") {
+								writeFile<< addTag("operator",c);
+							}
+							
+							else if (c == "/"){
+								writeFile<< addTag("operator",c);
+							}
+							
+							else if (c == "^") {
+								writeFile<< addTag("operator",c);
+							}
+							
+							else if ( c == "-" && str[i+1]==' ' ){
+								writeFile<< addTag("operadores", c);
+							}
+							
+							else if ( c == "(" ){
+								writeFile<< addTag("operator",c);
+							}
+							
+							else if ( c == ")" ){
+								writeFile<< addTag("operator",c);
+							}
+							
+							else if (c == "'")
+							{
+								writeFile<< addTag("operator", c);
+							}
+							
+							else if ( c == "," ){
+								writeFile<< addTag("operator",c);
+							}
+							
+							else if ( c == "#" ){
+								writeFile<< addTag("operator",c);
+							}
+							
+							else if ( c == ";" ){
+								writeFile<< addTag("operator",c);
+							}
+							
+							else if (c == "{"){
+								writeFile<< addTag("operator", c);
+							}
+							
+							else if ( c == "}" ){
+								writeFile<< addTag("operator",c);
+							}
+							
+							else if (c == "["){
+								writeFile<< addTag("operator", c);
+							}
+							
+							else if ( c == "]" ){
+								writeFile<< addTag("operator",c);
+							}
+							
+							else if ( c == "<" ){
+								writeFile<< addTag("operator",c);
+							}
+							
+							else if (c == ">"){
+								writeFile<< addTag("operator", c);
+							}
+
+							else continue;
+						}
+					}
+					cont++;
+				}
+				return (void*) 0; */
