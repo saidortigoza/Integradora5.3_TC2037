@@ -97,12 +97,12 @@ bool isComment(string str) {
 
 // Implementación del Resaltador Secuencial
 void resaltadorSec(string *rutas, int size) {
-	for (int i = 1; i <= size; i++) {
+	for (int i = 0; i < size; i++) {
 		string line;
 		ifstream inputFile(rutas[i]);
 		if (inputFile.is_open()) {
-			while (getline(inputFile, line, ' ')) {
-				cout << line << endl;
+			while (getline(inputFile, line)) {
+				//cout << line << endl;
 
 				/*if(cont >= start && cont <= limit){
 						writeFile << "<br>";
@@ -214,7 +214,7 @@ void resaltadorSec(string *rutas, int size) {
 	}
 }
 
-
+/*
 void* lexer(string archivo, int start, int limit, char type, int num) {
 	string c, str, substring, textoHTML;
 
@@ -337,7 +337,7 @@ void* lexer(string archivo, int start, int limit, char type, int num) {
 	}
 	return (void*) 0;
 }
-
+*/
 // Implementación del Resaltador Concurrente
 
 typedef struct {
@@ -399,7 +399,7 @@ int main(int argc, char* argv[]) {
 	msSeq = stop_timer();
 
 	// Ejecución concurrente
-	cout << "Ejecutando forma concurrente...";
+	cout << "Ejecutando forma concurrente..." << endl;
 	
 	block_size = size_Arr / threads;
 
