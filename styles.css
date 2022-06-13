@@ -1,23 +1,23 @@
 body {
     padding: 2rem 2 rem;
     font-family: "Courier New", Courier, monospace;
-    font-size: 1rem;
-    font-weight: 500;
+    font-size: 2rem;
+    font-weight: 750;
 }
 
 /* Variable / Identificador */
 .variable {
-    color: darkgreen;
+    color: dodgerblue;
 }
 
 /* Número enteros y reales */
 .number {
-    color: lightseagreen;
+    color: orangered;
 }
 
 /* Operador */
 .operator {
-    color: orange;
+    color: rebeccapurple;
 }
 
 /* Comentario */
@@ -27,5 +27,5 @@ body {
 
 /* Palabra reservada */
 .reserved {
-    color: red;
+    color: hotpink;
 }

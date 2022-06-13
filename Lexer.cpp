@@ -17,6 +17,7 @@ vector<string> extraerArchivo (string archivo) {
   inputFile.close();
   return aux;
 }
+
 void printIdentificador (string str) {
   regex reg("[a-zA-Z_]+[a-zA-Z_0-9]*");
   regex reg1("[0-9]+[a-zA-Z]+[0-9]*");
