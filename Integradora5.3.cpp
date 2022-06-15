@@ -250,7 +250,7 @@ void resaltadorSec(string *rutas, int size) {
 			cout << endl << counter << endl;
 			
 			int lengthArchivo = rutas[i].length();
-			string nombreArchivo = rutas[i].substr(0, lengthArchivo) +".html";
+			string nombreArchivo = "secuencial_" + rutas[i].substr(0, lengthArchivo) + ".html";
 			ofstream html(nombreArchivo);
 			
 			html << "<!DOCTYPE html> \n";
