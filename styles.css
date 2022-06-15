@@ -29,3 +29,18 @@ body {
 .reserved {
     color: hotpink;
 }
+
+/* String */
+.string {
+    color: goldenrod;
+}
+
+/* Puntuación */
+.punctuation {
+    color: red;
+}
+
+/* Includes */
+.includes {
+    color: lightseagreen;
+}
