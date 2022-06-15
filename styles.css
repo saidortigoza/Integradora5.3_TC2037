@@ -12,12 +12,12 @@ body {
 
 /* Número enteros y reales */
 .number {
-    color: orangered;
+    color: blueviolet;
 }
 
 /* Operador */
 .operator {
-    color: rebeccapurple;
+    color: lawngreen;
 }
 
 /* Comentario */

@@ -223,9 +223,6 @@ vector<string> crearArregloPalabras(string line) {
 	return vectorPalabras;
 }
 
-
-
-
 // Implementación del Resaltador Secuencial
 void resaltadorSec(string *rutas, int size) {
 	vector<string> vectorPalabras;
@@ -239,18 +236,9 @@ void resaltadorSec(string *rutas, int size) {
 				aux += "\n";
 			}
 			vectorPalabras = crearArregloPalabras(aux);
-			int counter = 0;
-			cout << "Vector de palabras\n";
-			for (int j = 0; j < vectorPalabras.size(); j++) {
-				if (vectorPalabras[j] == "<") {
-					counter++;
-				}
-				cout << vectorPalabras[j] << ",";
-			}
-			cout << endl << counter << endl;
-			
+
 			int lengthArchivo = rutas[i].length();
-			string nombreArchivo = "secuencial_" + rutas[i].substr(0, lengthArchivo) + ".html";
+			string nombreArchivo = "secuencial_" + rutas[i].substr(lengthArchivo - 6, lengthArchivo) + ".html";
 			ofstream html(nombreArchivo);
 			
 			html << "<!DOCTYPE html> \n";
@@ -305,6 +293,7 @@ void resaltadorSec(string *rutas, int size) {
 			html << "\n</body>\n</html>";
 			html.close();
 		}
+		inputFile.close();
 	}
 }
 
@@ -317,14 +306,82 @@ typedef struct {
 void* resaltadorConc(void* args) {
 	Block *block;
 	block = (Block*)args;
+	vector<string> vectorPalabras;
 	for (int i = block->start; i < block->end; i++) {
 		string line;
+		string aux;
 		ifstream inputFile(block->arr[i]);
 		if (inputFile.is_open()) {
 			while (getline(inputFile, line)) {
-				//cout << line << endl;
-				//Manipulacion del archivo
+				aux += line;
+				aux += "\n";
 			}
+			vectorPalabras = crearArregloPalabras(aux);
+			int lengthArchivo = block->arr[i].length();
+			string nombreArchivo = "concurrente_" + block->arr[i].substr(lengthArchivo - 6, lengthArchivo) + ".html";
+			ofstream html(nombreArchivo);
+
+			html << "<!DOCTYPE html> \n";
+			html << "<html lang = 'es'> \n";
+			html << "<head> \n\t";
+			html << "<meta charset = 'UTF-8'> \n\t";
+			html << "<meta http - equiv = 'X-UA-Compatible' content = 'IE=edge'>\n\t";
+			html << "<meta name = 'viewport' content = 'width=device-width, initial-scale=1.0'>\n\t";
+			html << "<title> Actividad 5.3 </title> <link rel = 'stylesheet' href = 'styles.css'>";
+			html << "</head>\n<body>\n";
+
+			for (int j = 0; j < vectorPalabras.size(); j++) {
+				string tagWord;
+				if (isInclude(vectorPalabras[j])) {
+					tagWord = addTag("includes", vectorPalabras[j]);
+					html << tagWord;
+				}
+				else if (isReserved(vectorPalabras[j])) {
+					tagWord = addTag("reserved", vectorPalabras[j]);
+					html << tagWord;
+				}
+				else if (isVariable(vectorPalabras[j])) {
+					tagWord = addTag("variable", vectorPalabras[j]);
+					html << tagWord;
+				}
+				else if (isNumber(vectorPalabras[j])) {
+					tagWord = addTag("number", vectorPalabras[j]);
+					html << tagWord;
+				}
+				else if (isOperator(vectorPalabras[j])) {
+					tagWord = addTag("operator", vectorPalabras[j]);
+					html << tagWord;
+				}
+				else if (isPunctuation(vectorPalabras[j])) {
+					tagWord = addTag("punctuation", vectorPalabras[j]);
+					html << tagWord;
+				}
+				else if (isComment(vectorPalabras[j])) {
+					tagWord = addTag("comment", vectorPalabras[j]);
+					html << tagWord;
+				}
+				else if (isString(vectorPalabras[j])) {
+					tagWord = addTag("string", vectorPalabras[j]);
+					html << tagWord;
+				}
+				else if (isSpace(vectorPalabras[j])) {
+					html << " ";
+				}
+				else if (isBreakLine(vectorPalabras[j])) {
+					tagWord = "<br>";
+					html << "\n";
+					html << tagWord;
+				}
+				else if (isTab(vectorPalabras[j])) {
+					tagWord = "&emsp;";
+					html << "\t";
+					html << tagWord;
+				}
+
+			}
+
+			html << "\n</body>\n</html>";
+			html.close();
 		}
 		inputFile.close();
 	}
@@ -352,7 +409,7 @@ int main(int argc, char* argv[]) {
 	start_timer();
 	resaltadorSec(rutasArchivos, size_Arr);
 	msSeq = stop_timer();
-	sleep(5);
+	//sleep(5);
 
 	// Ejecución concurrente
 	cout << "Ejecutando forma concurrente..." << endl;
