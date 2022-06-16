@@ -20,6 +20,9 @@ const int threads = 8;
 
 using namespace std;
 
+// Funcion addTag
+// La funcion addTag tiene una complejidad temporal de O(1) o constante para todos los casos,
+// ya que unicamente trabaja con los parámetros que recibe para devolver un string.
 string addTag(string type, string content) {
 	regex lt("<");
 	regex gt(">");
@@ -35,6 +38,11 @@ string addTag(string type, string content) {
 	return tag;
 }
 
+// Funcion isVariable
+// La funcion isVariable tiene una complejidad temporal de O(1) o constante para todos los casos,
+// ya que unicamente trabaja con el string que recibe para devolver un valor booleano si el string
+// hace match con la expresion regular declarada. En este caso si el string corresponde a una
+// variable.
 bool isVariable (string str) {
 	regex expression("[a-zA-Z_]+[a-zA-Z_0-9]*");
 	if (regex_match(str, expression)) {
@@ -43,6 +51,11 @@ bool isVariable (string str) {
 	return false;
 }
 
+// Funcion isNumber
+// La funcion isNumber tiene una complejidad temporal de O(1) o constante para todos los casos,
+// ya que unicamente trabaja con el string que recibe para devolver un valor booleano si el string
+// hace match con la expresion regular declarada. En este caso si el string corresponde a un
+// numero, entero o flotante.
 bool isNumber(string str) {
 	regex expressionInt("[0-9]+");
 	regex expressionFloat("[+-]*[0-9]+[.][0-9]+([eE][+-]*[0-9]+)?");
@@ -55,6 +68,11 @@ bool isNumber(string str) {
 	return false;
 }
 
+// Funcion isComment
+// La funcion isVariable tiene una complejidad temporal de O(1) o constante para todos los casos,
+// ya que unicamente trabaja con el string que recibe para devolver un valor booleano si el string
+// hace match con la expresion regular declarada. En este caso si el string corresponde a un
+// comentario.
 bool isComment(string str) {
 	regex expression("[/][/][ a-zA-Z0-9]*[;_.,]*");
 	if (regex_match(str, expression)) {
@@ -63,6 +81,11 @@ bool isComment(string str) {
 	return false;
 }
 
+// Funcion isOperator
+// La funcion isOperator tiene una complejidad temporal de O(1) o constante para todos los casos,
+// ya que unicamente trabaja con el string que recibe para devolver un valor booleano si el string
+// hace match con la expresion regular declarada. En este caso si el string corresponde a un
+// operador.
 bool isOperator(string str) {
 	regex expression("[+]|[-]|[*]|[%]|[/]|[!]|[=]|[<]|[>]|");
 	if (regex_match(str, expression)) {
@@ -71,6 +94,11 @@ bool isOperator(string str) {
 	return false;
 }
 
+// Funcion isPunctuation
+// La funcion isPunctuation tiene una complejidad temporal de O(1) o constante para todos los casos,
+// ya que unicamente trabaja con el string que recibe para devolver un valor booleano si el string
+// hace match con la expresion regular declarada. En este caso si el string corresponde a un
+// signo de puntuacion.
 bool isPunctuation(string str) {
 	regex expression("\\[|\\]|\\{|\\}|\\(|\\)|;|,");
 	if (regex_match(str, expression)) {
@@ -79,6 +107,11 @@ bool isPunctuation(string str) {
 	return false;
 }
 
+// Funcion isString
+// La funcion isString tiene una complejidad temporal de O(1) o constante para todos los casos,
+// ya que unicamente trabaja con el string que recibe para devolver un valor booleano si el string
+// hace match con la expresion regular declarada. En este caso si el string corresponde a un
+// string.
 bool isString(string str) {
 	regex expression("[\"][ a-zA-Z0-9_;,.]*[\"]");
 	if (regex_match(str, expression)) {
@@ -87,6 +120,11 @@ bool isString(string str) {
 	return false;
 }
 
+// Funcion isReserved
+// La funcion isReserved tiene una complejidad temporal de O(1) o constante para todos los casos,
+// ya que unicamente trabaja con el string que recibe para devolver un valor booleano si el string
+// hace match con la expresion regular declarada. En este caso si el string corresponde a una
+// palabra reservada.
 bool isReserved(string str) {
 	regex expression("if|else|while|for|do|const|int|float|string|char|void|return|continue|using|namespace|break|bool|static|new|null|false|switch|this|throw|case|true|catch|try|class|public|virtual|double|cout|cin|long|printf|scanf|unsigned|typedef|delete");
 	if (regex_match(str, expression)) {
@@ -95,6 +133,10 @@ bool isReserved(string str) {
 	return false;
 }
 
+// Funcion isSpace
+// La funcion isSpace tiene una complejidad temporal de O(1) o constante para todos los casos,
+// ya que unicamente trabaja con el string que recibe para devolver un valor booleano si el string
+// hace match con un espacio en blanco.
 bool isSpace(string str) {
 	if (str == " ") {
 		return true;
@@ -102,6 +144,10 @@ bool isSpace(string str) {
 	return false;
 }
 
+// Funcion isBreakLine
+// La funcion isBreakLine tiene una complejidad temporal de O(1) o constante para todos los casos,
+// ya que unicamente trabaja con el string que recibe para devolver un valor booleano si el string
+// hace match con un salto de linea.
 bool isBreakLine(string str) {
 	if (str == "\n") {
 		return true;
@@ -109,6 +155,10 @@ bool isBreakLine(string str) {
 	return false;
 }
 
+// Funcion isTab
+// La funcion isTab tiene una complejidad temporal de O(1) o constante para todos los casos,
+// ya que unicamente trabaja con el string que recibe para devolver un valor booleano si el string
+// hace match con un tabulador.
 bool isTab(string str) {
 	if (str == "\t") {
 		return true;
@@ -116,6 +166,11 @@ bool isTab(string str) {
 	return false;
 }
 
+// Funcion isInclude
+// La funcion isInclude tiene una complejidad temporal de O(1) o constante para todos los casos,
+// ya que unicamente trabaja con el string que recibe para devolver un valor booleano si el string
+// hace match con la expresion regular declarada. En este caso si el string corresponde a un
+// #include.
 bool isInclude(string str) {
 	regex expression("#include.*");
 	if (regex_match(str, expression)) {
@@ -124,6 +179,10 @@ bool isInclude(string str) {
 	return false;
 }
 
+// Funcion isDelimiter
+// La funcion isDelimiter tiene una complejidad temporal de O(1) o constante para todos los casos,
+// ya que unicamente trabaja con el char que recibe para devolver un valor booleano si el char
+// hace match con un delimitador.
 bool isDelimiter (char letter) {
 	if (letter == '\n') {
 		return true;
@@ -158,6 +217,11 @@ bool isDelimiter (char letter) {
 	return false;
 }
 
+// Funcion crearArregloPalabras
+// La funcion crearArregloPalabras trabaja con el string line que recibe, el cual corresponde al codigo
+// completo del archivo que se desea transformar. En este caso, devuelve un vector de strings que contiene
+// el codigo separado de manera que el resaltador pueda trabajar con el de manera sencilla.
+// El algoritmo recorre n*n pasos para el peor de los casos, por lo que su complejidad temporal es de O(n^2).
 vector<string> crearArregloPalabras(string line) {
 	string palabra = "";
 	vector<string> vectorPalabras;
@@ -224,6 +288,10 @@ vector<string> crearArregloPalabras(string line) {
 }
 
 // Implementación del Resaltador Secuencial
+
+// Funcion resaltadorSec
+// La funcion resaltadorSec recorre n pasos 4 veces, por lo que tiene una complejidad temporal de O(n^4)
+// para el peor de los casos.
 void resaltadorSec(string *rutas, int size) {
 	vector<string> vectorPalabras;
 	for (int i = 0; i < size; i++) {
@@ -303,6 +371,9 @@ typedef struct {
 	string* arr;
 } Block;
 
+// Funcion resaltadorConc
+// La funcion resaltadorConc recorre n pasos 4 veces, por lo que tiene una complejidad temporal de O(n^4)
+// para el peor de los casos.
 void* resaltadorConc(void* args) {
 	Block *block;
 	block = (Block*)args;
