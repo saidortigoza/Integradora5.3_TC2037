@@ -507,7 +507,7 @@ int main(int argc, char* argv[]) {
 	}
 	msConc += stop_timer();
 
-	double n = ((size_Arr - 1) / 8) < 1 ? (size_Arr - 1) % 8 : threads;
+	double n = ((size_Arr - 1) / threads) < 1 ? (size_Arr - 1) % threads : threads;
 	cout << "------------Secuencial--------------\n";
 	cout << "Tiempo = " << setprecision(5) << (msSeq) << "\n";
 	cout << "------------Multihilo--------------\n";
