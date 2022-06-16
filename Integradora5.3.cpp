@@ -100,7 +100,7 @@ bool isOperator(string str) {
 // hace match con la expresion regular declarada. En este caso si el string corresponde a un
 // signo de puntuacion.
 bool isPunctuation(string str) {
-	regex expression("\\[|\\]|\\{|\\}|\\(|\\)|;|,");
+	regex expression("\\[|\\]|\\{|\\}|\\(|\\)|;|,|:");
 	if (regex_match(str, expression)) {
 		return true;
 	}
@@ -126,7 +126,7 @@ bool isString(string str) {
 // hace match con la expresion regular declarada. En este caso si el string corresponde a una
 // palabra reservada.
 bool isReserved(string str) {
-	regex expression("if|else|while|for|do|const|int|float|string|char|void|return|continue|using|namespace|break|bool|static|new|null|false|switch|this|throw|case|true|catch|try|class|public|virtual|double|cout|cin|long|printf|scanf|unsigned|typedef|delete");
+	regex expression("|push_back|front|back|pop|stack|queue|dequeu|iterator|if|else|while|for|do|const|int|float|string|char|void|return|continue|using|namespace|break|bool|static|new|null|false|switch|this|throw|case|true|catch|try|class|public|virtual|double|cout|cin|long|printf|scanf|unsigned|typedef|delete");
 	if (regex_match(str, expression)) {
 		return true;
 	}
@@ -225,7 +225,6 @@ bool isDelimiter (char letter) {
 vector<string> crearArregloPalabras(string line) {
 	string palabra = "";
 	vector<string> vectorPalabras;
-	//cout << line << endl;
 	for (int i = 0; i < line.length(); i++) {
 		if (line[i] == '#') {
 			for (int p = i; p < line.length(); p++) {
