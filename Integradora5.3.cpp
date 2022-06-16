@@ -507,11 +507,13 @@ int main(int argc, char* argv[]) {
 	}
 	msConc += stop_timer();
 
-
+	double n = ((size_Arr - 1) / 8) < 1 ? (size_Arr - 1) % 8 : threads;
+	cout << ((size_Arr - 1) / 8) << endl;
+	cout << (size_Arr - 1) % 8 << endl;
 	cout << "------------Secuencial--------------\n";
 	cout << "Tiempo = " << setprecision(5) << (msSeq) << "\n";
 	cout << "------------Multihilo--------------\n";
-	cout << "Tiempo Promedio = " << setprecision(5) << (msConc / threads) << "\n";
+	cout << "Tiempo Promedio = " << setprecision(5) << (msConc / n) << "\n";
 
 	return 0;
 }
