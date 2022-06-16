@@ -88,7 +88,7 @@ bool isString(string str) {
 }
 
 bool isReserved(string str) {
-	regex expression("if|else|while|for|do|const|int|float|string|char|void|return|continue|using|namespace|break|bool|static|new|null|false|switch|this|throw|case|true|catch|try|class|public|virtual|double|cout|cin|long");
+	regex expression("if|else|while|for|do|const|int|float|string|char|void|return|continue|using|namespace|break|bool|static|new|null|false|switch|this|throw|case|true|catch|try|class|public|virtual|double|cout|cin|long|printf|scanf|unsigned|typedef|delete");
 	if (regex_match(str, expression)) {
 		return true;
 	}
