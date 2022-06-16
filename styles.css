@@ -3,6 +3,7 @@ body {
     font-family: "Courier New", Courier, monospace;
     font-size: 2rem;
     font-weight: 750;
+    background-color: #242526;
 }
 
 /* Variable / Identificador */
@@ -17,7 +18,7 @@ body {
 
 /* Operador */
 .operator {
-    color: lawngreen;
+    color: white;
 }
 
 /* Comentario */
@@ -27,12 +28,12 @@ body {
 
 /* Palabra reservada */
 .reserved {
-    color: hotpink;
+    color: orange;
 }
 
 /* String */
 .string {
-    color: goldenrod;
+    color: green;
 }
 
 /* Puntuación */
