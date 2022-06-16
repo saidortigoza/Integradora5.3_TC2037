@@ -398,7 +398,7 @@ int main(int argc, char* argv[]) {
 
 	rutasArchivos = new string[size_Arr];
 
-	for (i = 0; i < argc; i++) {
+	for (i = 1; i < argc; i++) {
 		rutasArchivos[i] = argv[i];
 	}
 
